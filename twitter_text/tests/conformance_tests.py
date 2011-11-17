@@ -11,6 +11,7 @@ hit_highlight = open(BASE + '/twitter-text-conformance/hit_highlighting.yml', 'r
 validate = open(BASE + '/twitter-text-conformance/validate.yml', 'r')
 
 extract_test_cases = yaml.load(extract)
+autolink_test_cases = yaml.load(autolink)
 
 class ExtractTest(unittest.TestCase):
 
@@ -75,6 +76,51 @@ class ExtractTest(unittest.TestCase):
         for case in extract_test_cases['tests']['hashtags_with_indices']:
             self.assertEqual(
                 twitter_text.Extractor(case['text']).extract_hashtags_with_indices(),
+                case['expected'],
+                case['description'],
+            )
+
+class AutolinkTest(unittest.TestCase):
+
+    def setUp(self):
+        self.longMessage = True
+
+    def test_users_autolink_conformance(self):
+        for case in autolink_test_cases['tests']['usernames']:
+            self.assertEqual(
+                twitter_text.Autolink(case['text']).auto_link_usernames_or_lists(),
+                case['expected'],
+                case['description'],
+            )
+
+    def test_lists_autolink_conformance(self):
+        for case in autolink_test_cases['tests']['lists']:
+            self.assertEqual(
+                twitter_text.Autolink(case['text']).auto_link_usernames_or_lists(),
+                case['expected'],
+                case['description'],
+            )
+
+    def test_urls_autolink_conformance(self):
+        for case in autolink_test_cases['tests']['urls']:
+            self.assertEqual(
+                twitter_text.Autolink(case['text']).auto_link_urls_custom(),
+                case['expected'],
+                case['description'],
+            )
+
+    def test_hashtags_autolink_conformance(self):
+        for case in autolink_test_cases['tests']['hashtags']:
+            self.assertEqual(
+                twitter_text.Autolink(case['text']).auto_link_hashtags(),
+                case['expected'],
+                case['description'],
+            )
+
+    def test_all_autolink_conformance(self):
+        for case in autolink_test_cases['tests']['all']:
+            self.assertEqual(
+                twitter_text.Autolink(case['text']).auto_link(),
                 case['expected'],
                 case['description'],
             )
