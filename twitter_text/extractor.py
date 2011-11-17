@@ -56,7 +56,10 @@ class Extractor(object):
         del(matches)
         del(transform)
         return possible_screen_names
-        
+
+    def extract_mentions_or_lists_with_indices(self, transform = False):
+        pass
+    
     def extract_reply_screen_name(self, transform = False):
         """
         Extracts the first username replied to in the Tweet text. If the
