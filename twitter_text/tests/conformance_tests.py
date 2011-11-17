@@ -58,6 +58,8 @@ class ExtractTest(unittest.TestCase):
 
     def test_urls_with_indices_extractor_conformance(self):
         for case in extract_test_cases['tests']['urls_with_indices']:
+            for e in case['expected']:
+                e['indices'] = tuple(e['indices'])
             self.assertEqual(
                 twitter_text.Extractor(case['text']).extract_urls_with_indices(),
                 case['expected'],
@@ -74,6 +76,8 @@ class ExtractTest(unittest.TestCase):
 
     def test_hashtags_with_indices_extractor_conformance(self):
         for case in extract_test_cases['tests']['hashtags_with_indices']:
+            for e in case['expected']:
+                e['indices'] = tuple(e['indices'])
             self.assertEqual(
                 twitter_text.Extractor(case['text']).extract_hashtags_with_indices(),
                 case['expected'],
